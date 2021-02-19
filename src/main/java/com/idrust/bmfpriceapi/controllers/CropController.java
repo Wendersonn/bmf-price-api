@@ -1,7 +1,11 @@
 package com.idrust.bmfpriceapi.controllers;
 
+import com.idrust.bmfpriceapi.dtos.BaseResponse;
+import com.idrust.bmfpriceapi.dtos.CropPriceDTO;
+import com.idrust.bmfpriceapi.exceptions.CropPriceCalculationException;
 import com.idrust.bmfpriceapi.services.CropService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -15,10 +19,12 @@ public class CropController {
         this.cropService = cropService;
     }
 
+    @ResponseBody
     @GetMapping(value = "{cropCode}/price")
-    public void calculateCropPrice(@PathVariable String cropCode, @RequestParam String date) {
-        System.out.println(cropCode + " " + date);
-        this.cropService.calculateCropPrice(cropCode, date);
+    public ResponseEntity<BaseResponse> calculateCropPrice(@PathVariable String cropCode, @RequestParam String date) throws CropPriceCalculationException {
+        final CropPriceDTO cropPriceDTO = new CropPriceDTO();
+        cropPriceDTO.setPrice(cropService.calculateCropPrice(cropCode, date));
+        return ResponseEntity.ok(BaseResponse.ok(cropPriceDTO));
     }
 
 }

@@ -9,6 +9,6 @@ public interface QuandlService {
      * @param date      Data em que se deseja o preço daquela cultura
      * @return O preço em dólares (USD) da cultura com o código informado na data informada
      */
-    Float getCropPrice(String cropCode, String date);
+    Double getCropPrice(String cropCode, String date);
 
 }

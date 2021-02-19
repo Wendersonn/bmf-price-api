@@ -12,7 +12,7 @@ public class CropPrice extends AbstractEntity {
     private String code;
 
     @Column(name = "price", nullable = false, updatable = false)
-    private Float price;
+    private Double price;
 
     @Column(name = "date", nullable = false, updatable = false)
     private String date;
@@ -25,11 +25,11 @@ public class CropPrice extends AbstractEntity {
         this.code = code;
     }
 
-    public Float getPrice() {
+    public Double getPrice() {
         return price;
     }
 
-    public void setPrice(Float price) {
+    public void setPrice(Double price) {
         this.price = price;
     }
 
