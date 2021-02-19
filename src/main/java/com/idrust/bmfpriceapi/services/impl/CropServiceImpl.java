@@ -3,6 +3,7 @@ package com.idrust.bmfpriceapi.services.impl;
 import com.idrust.bmfpriceapi.entities.CropPrice;
 import com.idrust.bmfpriceapi.exceptions.CropPriceCalculationException;
 import com.idrust.bmfpriceapi.exceptions.EconomiaAPIException;
+import com.idrust.bmfpriceapi.exceptions.QuandlAPIException;
 import com.idrust.bmfpriceapi.repositories.CropPriceRepository;
 import com.idrust.bmfpriceapi.services.CropService;
 import com.idrust.bmfpriceapi.services.EconomiaService;
@@ -29,7 +30,7 @@ public class CropServiceImpl implements CropService {
     }
 
     @Override
-    public Double calculateCropPrice(String cropCode, String date) throws CropPriceCalculationException {
+    public Double calculateCropPrice(String cropCode, String date) throws CropPriceCalculationException, QuandlAPIException {
         if (cropCode == null || cropCode.trim().isEmpty()) {
             throw new IllegalArgumentException("O {cropCode} é obrigatório.");
         } else if (date == null || date.trim().isEmpty()) {
@@ -45,7 +46,7 @@ public class CropServiceImpl implements CropService {
         return retrieveCropPriceFromAPI(cropCode, date).getPrice();
     }
 
-    private CropPrice retrieveCropPriceFromAPI(String cropCode, String date) throws CropPriceCalculationException {
+    private CropPrice retrieveCropPriceFromAPI(String cropCode, String date) throws CropPriceCalculationException, QuandlAPIException {
         final Double cropPriceInDollars = this.quandlService.getCropPrice(cropCode, date);
         final Float currentDollarQuotation;
         try {

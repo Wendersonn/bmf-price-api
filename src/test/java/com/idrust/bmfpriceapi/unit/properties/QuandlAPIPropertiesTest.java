@@ -29,7 +29,7 @@ class QuandlAPIPropertiesTest {
             quandlAPIProperties.getUrlFor(null, "2021-02-17");
         });
 
-        final String expectedMessage = "O argumento {cropId} é obrigatório para gerar a URL da API.";
+        final String expectedMessage = "O argumento {cropCode} é obrigatório para gerar a URL da API.";
         final String actualMessage = expectedException.getMessage();
 
         assertEquals(expectedMessage, actualMessage, "A mensagem de exceção deveria ser a mesma.");
@@ -41,7 +41,7 @@ class QuandlAPIPropertiesTest {
             quandlAPIProperties.getUrlFor("             ", "2021-02-17");
         });
 
-        final String expectedMessage = "O argumento {cropId} é obrigatório para gerar a URL da API.";
+        final String expectedMessage = "O argumento {cropCode} é obrigatório para gerar a URL da API.";
         final String actualMessage = expectedException.getMessage();
 
         assertEquals(expectedMessage, actualMessage, "A mensagem de exceção deveria ser a mesma.");

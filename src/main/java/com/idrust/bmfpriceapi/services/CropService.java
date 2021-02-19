@@ -1,6 +1,7 @@
 package com.idrust.bmfpriceapi.services;
 
 import com.idrust.bmfpriceapi.exceptions.CropPriceCalculationException;
+import com.idrust.bmfpriceapi.exceptions.QuandlAPIException;
 
 public interface CropService {
 
@@ -13,6 +14,6 @@ public interface CropService {
      *          devolve o preço em USD/Kg e daí dentro do serviço eu apenas calculei a conversão para R$)
      * @throws CropPriceCalculationException quando qualquer problema ocorre durante o cálculo do preço da cultura
      */
-    Double calculateCropPrice(String cropCode, String date) throws CropPriceCalculationException;
+    Double calculateCropPrice(String cropCode, String date) throws CropPriceCalculationException, QuandlAPIException;
 
 }

@@ -3,6 +3,7 @@ package com.idrust.bmfpriceapi.unit.services;
 import com.idrust.bmfpriceapi.entities.CropPrice;
 import com.idrust.bmfpriceapi.exceptions.CropPriceCalculationException;
 import com.idrust.bmfpriceapi.exceptions.EconomiaAPIException;
+import com.idrust.bmfpriceapi.exceptions.QuandlAPIException;
 import com.idrust.bmfpriceapi.repositories.CropPriceRepository;
 import com.idrust.bmfpriceapi.services.CropService;
 import com.idrust.bmfpriceapi.services.EconomiaService;
@@ -39,7 +40,7 @@ public class CropServiceTest {
     }
 
     @Test
-    public void shouldRetrieveCropPriceFromDatabaseWhenItExists() throws EconomiaAPIException, CropPriceCalculationException {
+    public void shouldRetrieveCropPriceFromDatabaseWhenItExists() throws EconomiaAPIException, CropPriceCalculationException, QuandlAPIException {
         final CropPrice cropPrice = new CropPrice();
         cropPrice.setCode("SOYBEAN");
         cropPrice.setPrice(50.23);
@@ -56,7 +57,7 @@ public class CropServiceTest {
     }
 
     @Test
-    public void shouldCallAPIsWhenCropPriceDoesNotExist() throws EconomiaAPIException, CropPriceCalculationException {
+    public void shouldCallAPIsWhenCropPriceDoesNotExist() throws EconomiaAPIException, CropPriceCalculationException, QuandlAPIException {
         final CropPrice cropPrice = new CropPrice();
         cropPrice.setCode("SOYBEAN");
         cropPrice.setPrice(50d);

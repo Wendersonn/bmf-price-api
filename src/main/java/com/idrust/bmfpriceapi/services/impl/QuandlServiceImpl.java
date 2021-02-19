@@ -1,6 +1,7 @@
 package com.idrust.bmfpriceapi.services.impl;
 
 import com.idrust.bmfpriceapi.dtos.QuandlCropDTO;
+import com.idrust.bmfpriceapi.exceptions.QuandlAPIException;
 import com.idrust.bmfpriceapi.properties.QuandlAPIProperties;
 import com.idrust.bmfpriceapi.services.QuandlService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,15 +28,18 @@ public class QuandlServiceImpl implements QuandlService {
      * @return O preço em dólares (USD) da cultura com o código informado na data informada
      */
     @Override
-    public Double getCropPrice(String cropCode, String date) {
+    public Double getCropPrice(String cropCode, String date) throws QuandlAPIException {
+        QuandlCropDTO quandlCropDTO;
 
-        final QuandlCropDTO quandlCropDTO = restTemplate.getForObject(
-                quandlAPIProperties.getUrlFor(cropCode, date),
-                QuandlCropDTO.class);
+        try {
+            quandlCropDTO = restTemplate.getForObject(quandlAPIProperties.getUrlFor(cropCode, date),
+                    QuandlCropDTO.class);
+        } catch (Exception e) {
+            throw new QuandlAPIException("Erro ao requisitar Quandl API");
+        }
+
         if (quandlCropDTO == null) {
-            // TODO: tratar exceção tentando novamente ou pegando valor do banco
-            System.out.println("fuuu");
-            return null;
+            throw new QuandlAPIException("A resposta devolvida pela API Quandl não é valida");
         }
 
         return quandlCropDTO.getCropPrice();

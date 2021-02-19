@@ -26,18 +26,18 @@ public class QuandlAPIProperties {
      * alterar as variáveis do template para gerar uma URL
      * coesa de acesso à API.
      *
-     * @param cropId    A cultura inserida na URL
+     * @param cropCode    A cultura inserida na URL
      * @param date      A data em que se deseja gerar a URL para o preço da cultura
      * @return  A URL gerada para a API de cotação, com âmbos os parâmetros
      */
-    public String getUrlFor(String cropId, String date) {
-        if (cropId == null || cropId.trim().isEmpty()) {
-            throw new IllegalArgumentException("O argumento {cropId} é obrigatório para gerar a URL da API.");
+    public String getUrlFor(String cropCode, String date) {
+        if (cropCode == null || cropCode.trim().isEmpty()) {
+            throw new IllegalArgumentException("O argumento {cropCode} é obrigatório para gerar a URL da API.");
         } else if (date == null || date.trim().isEmpty()) {
             throw new IllegalArgumentException("O argumento {date} é obrigatório para gerar a URL da API.");
         }
 
-        return this.url.replace(CROP_IDENTIFIER, cropId).replaceAll(DATE_IDENTIFIER, date);
+        return this.url.replace(CROP_IDENTIFIER, cropCode).replaceAll(DATE_IDENTIFIER, date);
     }
 
 }
