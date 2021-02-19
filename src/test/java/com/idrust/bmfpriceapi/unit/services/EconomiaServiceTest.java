@@ -24,7 +24,7 @@ public class EconomiaServiceTest {
 
     private EconomiaService economiaService;
 
-    final String urlTeste = "URL_TESTE";
+    private static final String URL_TESTE = "URL_TESTE";
 
     @BeforeEach
     public void setUp() throws Exception {
@@ -34,7 +34,7 @@ public class EconomiaServiceTest {
 
     @Test
     public void shouldRetrieveCorrectValueInReaisFromEconomiaAPI() throws EconomiaAPIException {
-        final String economiaAPIUrl =  urlTeste;
+        final String economiaAPIUrl =  URL_TESTE;
         final EconomiaDTO economiaDTO = new EconomiaDTO();
         economiaDTO.setBid(5.43f);
 
@@ -54,7 +54,7 @@ public class EconomiaServiceTest {
 
     @Test
     public void shouldThrowExceptionIfEconomiaAPICallThrowsException() {
-        when(economiaAPIProperties.getEconomiaAPIUrl()).thenReturn(urlTeste);
+        when(economiaAPIProperties.getEconomiaAPIUrl()).thenReturn(URL_TESTE);
         when(restTemplate.getForObject(anyString(), any())).thenThrow(new RuntimeException("Some exception occurred"));
 
         final Exception expectedException = assertThrows(EconomiaAPIException.class, () -> {
@@ -71,7 +71,7 @@ public class EconomiaServiceTest {
 
     @Test
     public void shouldThrowExceptionIfEconomiaAPICallReturnsNull() {
-        when(economiaAPIProperties.getEconomiaAPIUrl()).thenReturn(urlTeste);
+        when(economiaAPIProperties.getEconomiaAPIUrl()).thenReturn(URL_TESTE);
         when(restTemplate.getForObject(anyString(), any())).thenReturn(null);
 
         final Exception expectedException = assertThrows(EconomiaAPIException.class, () -> {
@@ -90,7 +90,7 @@ public class EconomiaServiceTest {
     public void shouldThrowExceptionIfEconomiaAPICallReturnsEmptyValue() {
         final EconomiaDTO[] economiaDTOs = new EconomiaDTO[]{};
 
-        when(economiaAPIProperties.getEconomiaAPIUrl()).thenReturn(urlTeste);
+        when(economiaAPIProperties.getEconomiaAPIUrl()).thenReturn(URL_TESTE);
         when(restTemplate.getForObject(anyString(), any())).thenReturn(economiaDTOs);
 
         final Exception expectedException = assertThrows(EconomiaAPIException.class, () -> {

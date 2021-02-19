@@ -1,6 +1,5 @@
 package com.idrust.bmfpriceapi.unit.services;
 
-import com.idrust.bmfpriceapi.exceptions.EconomiaAPIException;
 import com.idrust.bmfpriceapi.exceptions.QuandlAPIException;
 import com.idrust.bmfpriceapi.properties.QuandlAPIProperties;
 import com.idrust.bmfpriceapi.services.QuandlService;
@@ -28,7 +27,7 @@ public class QuandlServiceTeste {
 
     private QuandlService quandlService;
 
-    final String urlTeste = "URL_TESTE";
+    private final static String URL_TESTE = "URL_TESTE";
 
     @BeforeEach
     public void setUp(){
@@ -40,7 +39,7 @@ public class QuandlServiceTeste {
 
     @Test
     public void shouldThrowExceptionIfQuandlAPICallThrowsException() {
-        when(quandlAPIProperties.getUrlFor(anyString(), anyString())).thenReturn(urlTeste);
+        when(quandlAPIProperties.getUrlFor(anyString(), anyString())).thenReturn(URL_TESTE);
         when(restTemplate.getForObject(anyString(), any())).thenThrow(new RuntimeException("Some exception occurred"));
 
         final Exception expectedException = assertThrows(QuandlAPIException.class, () -> {
@@ -56,7 +55,7 @@ public class QuandlServiceTeste {
 
     @Test
     public void shouldThrowExceptionIfQuandlAPICallReturnsNull() {
-        when(quandlAPIProperties.getUrlFor(anyString(), anyString())).thenReturn(urlTeste);
+        when(quandlAPIProperties.getUrlFor(anyString(), anyString())).thenReturn(URL_TESTE);
         when(restTemplate.getForObject(anyString(), any())).thenReturn(null);
 
         final Exception expectedException = assertThrows(QuandlAPIException.class, () -> {
