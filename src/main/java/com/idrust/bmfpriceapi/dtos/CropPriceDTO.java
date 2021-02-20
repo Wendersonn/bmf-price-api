@@ -1,14 +1,17 @@
 package com.idrust.bmfpriceapi.dtos;
 
+import java.math.BigDecimal;
+
 public class CropPriceDTO {
 
-    private Double price;
+    private BigDecimal price;
 
-    public Double getPrice() {
+    public CropPriceDTO(BigDecimal price) {
+        this.price = price;
+    }
+
+    public BigDecimal getPrice() {
         return price;
     }
 
-    public void setPrice(Double price) {
-        this.price = price;
-    }
 }

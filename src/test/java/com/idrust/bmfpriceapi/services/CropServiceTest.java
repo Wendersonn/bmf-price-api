@@ -1,4 +1,4 @@
-package com.idrust.bmfpriceapi.unit.services;
+package com.idrust.bmfpriceapi.services;
 
 import com.idrust.bmfpriceapi.entities.CropPrice;
 import com.idrust.bmfpriceapi.exceptions.CropPriceCalculationException;
@@ -14,6 +14,7 @@ import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
+import java.math.BigDecimal;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -43,12 +44,12 @@ public class CropServiceTest {
     public void shouldRetrieveCropPriceFromDatabaseWhenItExists() throws EconomiaAPIException, CropPriceCalculationException, QuandlAPIException {
         final CropPrice cropPrice = new CropPrice();
         cropPrice.setCode("SOYBEAN");
-        cropPrice.setPrice(50.23);
+        cropPrice.setPrice(BigDecimal.valueOf(50.23));
         cropPrice.setDate("2021-02-18");
 
         when(cropPriceRepository.findByCodeAndDate(cropPrice.getCode(), cropPrice.getDate())).thenReturn(Optional.of(cropPrice));
 
-        final Double actualCropPrice = cropService.calculateCropPrice(cropPrice.getCode(), cropPrice.getDate());
+        final BigDecimal actualCropPrice = cropService.calculateCropPrice(cropPrice.getCode(), cropPrice.getDate());
 
         assertEquals(cropPrice.getPrice(), actualCropPrice);
         verify(cropPriceRepository, times(1)).findByCodeAndDate(cropPrice.getCode(), cropPrice.getDate());
@@ -60,14 +61,14 @@ public class CropServiceTest {
     public void shouldCallAPIsWhenCropPriceDoesNotExist() throws EconomiaAPIException, CropPriceCalculationException, QuandlAPIException {
         final CropPrice cropPrice = new CropPrice();
         cropPrice.setCode("SOYBEAN");
-        cropPrice.setPrice(50d);
+        cropPrice.setPrice(BigDecimal.valueOf(50));
         cropPrice.setDate("2021-02-18");
 
         when(cropPriceRepository.findByCodeAndDate(anyString(), anyString())).thenReturn(Optional.empty());
-        when(quandlService.getCropPrice(cropPrice.getCode(), cropPrice.getDate())).thenReturn(10d);
-        when(economiaService.getCurrentUSDQuotationInReais()).thenReturn(5f);
+        when(quandlService.getCropPrice(cropPrice.getCode(), cropPrice.getDate())).thenReturn(BigDecimal.valueOf(10));
+        when(economiaService.getCurrentUSDQuotationInReais()).thenReturn(BigDecimal.valueOf(5));
 
-        final Double actualCropPrice = cropService.calculateCropPrice(cropPrice.getCode(), cropPrice.getDate());
+        final BigDecimal actualCropPrice = cropService.calculateCropPrice(cropPrice.getCode(), cropPrice.getDate());
 
         assertEquals(cropPrice.getPrice(), actualCropPrice);
         verify(cropPriceRepository, times(1)).findByCodeAndDate(cropPrice.getCode(), cropPrice.getDate());
@@ -78,11 +79,11 @@ public class CropServiceTest {
 
     @Test
     public void shouldThrowExceptionIfCropCodeIsNull() {
-        final Exception expectedException = assertThrows(IllegalArgumentException.class, () -> {
+        final Exception expectedException = assertThrows(CropPriceCalculationException.class, () -> {
             cropService.calculateCropPrice(null, "2021-02-18");
         });
 
-        final String expectedMessage = "O {cropCode} é obrigatório.";
+        final String expectedMessage = "O {cropCode} é obrigatorio.";
         final String actualMessage = expectedException.getMessage();
 
         assertEquals(expectedMessage, actualMessage);
@@ -90,11 +91,11 @@ public class CropServiceTest {
 
     @Test
     public void shouldThrowExceptionIfCropCodeIsEmpty() {
-        final Exception expectedException = assertThrows(IllegalArgumentException.class, () -> {
+        final Exception expectedException = assertThrows(CropPriceCalculationException.class, () -> {
             cropService.calculateCropPrice("           ", "2021-02-18");
         });
 
-        final String expectedMessage = "O {cropCode} é obrigatório.";
+        final String expectedMessage = "O {cropCode} é obrigatorio.";
         final String actualMessage = expectedException.getMessage();
 
         assertEquals(expectedMessage, actualMessage);
@@ -102,11 +103,11 @@ public class CropServiceTest {
 
     @Test
     public void shouldThrowExceptionIfDateIsNull() {
-        final Exception expectedException = assertThrows(IllegalArgumentException.class, () -> {
+        final Exception expectedException = assertThrows(CropPriceCalculationException.class, () -> {
             cropService.calculateCropPrice("SOYBEAN", null);
         });
 
-        final String expectedMessage = "O {date} é obrigatório.";
+        final String expectedMessage = "O {date} é obrigatorio.";
         final String actualMessage = expectedException.getMessage();
 
         assertEquals(expectedMessage, actualMessage);
@@ -114,11 +115,11 @@ public class CropServiceTest {
 
     @Test
     public void shouldThrowExceptionIfDateIsEmpty() {
-        final Exception expectedException = assertThrows(IllegalArgumentException.class, () -> {
+        final Exception expectedException = assertThrows(CropPriceCalculationException.class, () -> {
             cropService.calculateCropPrice("SOYBEAN", "         ");
         });
 
-        final String expectedMessage = "O {date} é obrigatório.";
+        final String expectedMessage = "O {date} é obrigatorio.";
         final String actualMessage = expectedException.getMessage();
 
         assertEquals(expectedMessage, actualMessage);

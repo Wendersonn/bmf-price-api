@@ -2,6 +2,10 @@
 
 Este projeto tem como finalidade buscar o preço de uma cultura na BM&F em uma data específica.
 
+**ATENÇÃO:** dado que para calcular por Kg o valor de cada cultura, eu precisaria entrar em cada cultura no site 
+da Quandl e pegar o peso da saca, eu preferi não fazer isso, e retornei apenas o valor da cultura calculado pela API da
+Quandl
+
 ## Dependências
 
 - Maven
@@ -44,3 +48,33 @@ chamada:
   }
 }
 ```
+
+## Exemplos de Retorno da API
+
+- http://localhost:8080/v1/crops/SOYBEAN/price?date=2021-02-17
+  ```json
+  {
+    "data": {
+      "price": 157.86
+    }
+  }
+  ```
+
+- http://localhost:8080/v1/crops/CORN/price?date=2021-02-17
+  ```json
+  {
+    "data": {
+      "price": 83.21
+    }
+  }
+  ```
+  
+- http://localhost:8080/v1/crops/CORN/price?date=2021-02-13 (sábado, domingo ou feriado a b3 não abre)
+  ```json
+  {
+    "metadata": {
+      "status": "BAD_GATEWAY",
+      "message": "Erro ao tentar desserializar a resposta da API Quandl"
+    }
+  }
+  ```

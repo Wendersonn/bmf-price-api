@@ -1,4 +1,4 @@
-package com.idrust.bmfpriceapi.integration.repositories;
+package com.idrust.bmfpriceapi.repositories;
 
 import com.idrust.bmfpriceapi.entities.CropPrice;
 import com.idrust.bmfpriceapi.repositories.CropPriceRepository;
@@ -8,6 +8,7 @@ import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.context.jdbc.Sql;
 
+import java.math.BigDecimal;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -33,7 +34,7 @@ public class CropPriceRepositoryITest {
         assertNotNull(cropPrice);
         assertTrue(cropPrice.isPresent());
         assertEquals("SOYBEAN", cropPrice.get().getCode());
-        assertEquals(180.12, cropPrice.get().getPrice());
+        assertEquals(BigDecimal.valueOf(180.12), cropPrice.get().getPrice());
         assertEquals("2021-02-18", cropPrice.get().getDate());
     }
 

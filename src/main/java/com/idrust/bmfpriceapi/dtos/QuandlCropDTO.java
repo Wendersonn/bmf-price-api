@@ -21,7 +21,6 @@ public class QuandlCropDTO {
     }
 
     public Double getCropPrice() {
-        // TODO: tratar caso o objeto não seja populado
         return (Double) this.dataset.data[0][1];
     }
 

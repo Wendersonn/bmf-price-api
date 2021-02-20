@@ -1,6 +1,6 @@
 package com.idrust.bmfpriceapi.exceptions;
 
-public class QuandlAPIException extends Exception{
+public class QuandlAPIException extends ServiceException {
 
     public QuandlAPIException(String message) {
         super(message);

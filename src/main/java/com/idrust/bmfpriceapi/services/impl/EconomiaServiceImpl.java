@@ -4,12 +4,18 @@ import com.idrust.bmfpriceapi.dtos.EconomiaDTO;
 import com.idrust.bmfpriceapi.exceptions.EconomiaAPIException;
 import com.idrust.bmfpriceapi.properties.EconomiaAPIProperties;
 import com.idrust.bmfpriceapi.services.EconomiaService;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
+import java.math.BigDecimal;
+
 @Service
 public class EconomiaServiceImpl implements EconomiaService {
+
+    private static final Logger LOGGER = LogManager.getLogger(EconomiaServiceImpl.class);
 
     private final EconomiaAPIProperties economiaAPIProperties;
     private final RestTemplate restTemplate;
@@ -21,7 +27,9 @@ public class EconomiaServiceImpl implements EconomiaService {
     }
 
     @Override
-    public Float getCurrentUSDQuotationInReais() throws EconomiaAPIException {
+    public BigDecimal getCurrentUSDQuotationInReais() throws EconomiaAPIException {
+        LOGGER.info("Calculando cotacão do dolar no momento atual");
+
         EconomiaDTO[] economiaDTOs;
 
         try {
@@ -34,7 +42,7 @@ public class EconomiaServiceImpl implements EconomiaService {
             throw new EconomiaAPIException("A resposta devolvida pela API de economia não é válida");
         }
 
-        return economiaDTOs[0].getBid();
+        return BigDecimal.valueOf(economiaDTOs[0].getBid());
     }
 
 }

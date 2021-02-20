@@ -1,6 +1,6 @@
 package com.idrust.bmfpriceapi.exceptions;
 
-public class CropPriceCalculationException extends Exception {
+public class CropPriceCalculationException extends ServiceException {
 
     public CropPriceCalculationException(String message) {
         super(message);

@@ -2,14 +2,16 @@ package com.idrust.bmfpriceapi.services;
 
 import com.idrust.bmfpriceapi.exceptions.EconomiaAPIException;
 
+import java.math.BigDecimal;
+
 public interface EconomiaService {
 
     /**
-     * Requisita a API de economia para buscar o valor do dólar no atual momento
+     * Requisita a API de economia para buscar o valor do dolar no atual momento
      *
-     * @return O valor do dólar em reais no atual momento
-     * @throws EconomiaAPIException quando ocorre qualquer problema durante a requisição para a API de Economia
+     * @return O valor do dolar em reais no atual momento
+     * @throws EconomiaAPIException quando ocorre qualquer problema durante a requisicão para a API de Economia
      */
-    Float getCurrentUSDQuotationInReais() throws EconomiaAPIException;
+    BigDecimal getCurrentUSDQuotationInReais() throws EconomiaAPIException;
 
 }

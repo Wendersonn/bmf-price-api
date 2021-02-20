@@ -3,6 +3,8 @@ package com.idrust.bmfpriceapi.entities;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Table;
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 
 @Entity
 @Table(name = "crops_quotations")
@@ -12,7 +14,7 @@ public class CropPrice extends AbstractEntity {
     private String code;
 
     @Column(name = "price", nullable = false, updatable = false)
-    private Double price;
+    private BigDecimal price;
 
     @Column(name = "date", nullable = false, updatable = false)
     private String date;
@@ -25,12 +27,12 @@ public class CropPrice extends AbstractEntity {
         this.code = code;
     }
 
-    public Double getPrice() {
+    public BigDecimal getPrice() {
         return price;
     }
 
-    public void setPrice(Double price) {
-        this.price = price;
+    public void setPrice(BigDecimal price) {
+        this.price = price.setScale(2, RoundingMode.HALF_UP);
     }
 
     public String getDate() {

@@ -10,6 +10,7 @@ import org.springframework.boot.context.properties.EnableConfigurationProperties
 public class BmfPriceApiApplication {
 
 	public static void main(String[] args) {
+		System.setProperty("file.encoding", "UTF-8");
 		SpringApplication.run(BmfPriceApiApplication.class, args);
 	}
 

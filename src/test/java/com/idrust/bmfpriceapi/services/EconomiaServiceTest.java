@@ -1,4 +1,4 @@
-package com.idrust.bmfpriceapi.unit.services;
+package com.idrust.bmfpriceapi.services;
 
 import com.idrust.bmfpriceapi.dtos.EconomiaDTO;
 import com.idrust.bmfpriceapi.exceptions.EconomiaAPIException;
@@ -10,6 +10,8 @@ import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.springframework.web.client.RestTemplate;
+
+import java.math.BigDecimal;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
@@ -24,7 +26,7 @@ public class EconomiaServiceTest {
 
     private EconomiaService economiaService;
 
-    private static final String URL_TESTE = "URL_TESTE";
+    final String urlTeste = "URL_TESTE";
 
     @BeforeEach
     public void setUp() throws Exception {
@@ -34,9 +36,10 @@ public class EconomiaServiceTest {
 
     @Test
     public void shouldRetrieveCorrectValueInReaisFromEconomiaAPI() throws EconomiaAPIException {
-        final String economiaAPIUrl =  URL_TESTE;
+        final BigDecimal expectedBid = BigDecimal.valueOf(5.43f);
+        final String economiaAPIUrl =  urlTeste;
         final EconomiaDTO economiaDTO = new EconomiaDTO();
-        economiaDTO.setBid(5.43f);
+        economiaDTO.setBid(expectedBid.floatValue());
 
         final EconomiaDTO[] economiaDTOs = new EconomiaDTO[]{
                 economiaDTO
@@ -45,16 +48,16 @@ public class EconomiaServiceTest {
         when(economiaAPIProperties.getEconomiaAPIUrl()).thenReturn(economiaAPIUrl);
         when(restTemplate.getForObject(economiaAPIUrl, EconomiaDTO[].class)).thenReturn(economiaDTOs);
 
-        final Float currentUSDQuotation = economiaService.getCurrentUSDQuotationInReais();
+        final BigDecimal currentUSDQuotation = economiaService.getCurrentUSDQuotationInReais();
 
-        assertEquals(economiaDTO.getBid(), currentUSDQuotation);
+        assertEquals(expectedBid, currentUSDQuotation);
         verify(economiaAPIProperties, times(1)).getEconomiaAPIUrl();
         verify(restTemplate, times(1)).getForObject(economiaAPIUrl, EconomiaDTO[].class);
     }
 
     @Test
     public void shouldThrowExceptionIfEconomiaAPICallThrowsException() {
-        when(economiaAPIProperties.getEconomiaAPIUrl()).thenReturn(URL_TESTE);
+        when(economiaAPIProperties.getEconomiaAPIUrl()).thenReturn(urlTeste);
         when(restTemplate.getForObject(anyString(), any())).thenThrow(new RuntimeException("Some exception occurred"));
 
         final Exception expectedException = assertThrows(EconomiaAPIException.class, () -> {
@@ -71,7 +74,7 @@ public class EconomiaServiceTest {
 
     @Test
     public void shouldThrowExceptionIfEconomiaAPICallReturnsNull() {
-        when(economiaAPIProperties.getEconomiaAPIUrl()).thenReturn(URL_TESTE);
+        when(economiaAPIProperties.getEconomiaAPIUrl()).thenReturn(urlTeste);
         when(restTemplate.getForObject(anyString(), any())).thenReturn(null);
 
         final Exception expectedException = assertThrows(EconomiaAPIException.class, () -> {
@@ -90,7 +93,7 @@ public class EconomiaServiceTest {
     public void shouldThrowExceptionIfEconomiaAPICallReturnsEmptyValue() {
         final EconomiaDTO[] economiaDTOs = new EconomiaDTO[]{};
 
-        when(economiaAPIProperties.getEconomiaAPIUrl()).thenReturn(URL_TESTE);
+        when(economiaAPIProperties.getEconomiaAPIUrl()).thenReturn(urlTeste);
         when(restTemplate.getForObject(anyString(), any())).thenReturn(economiaDTOs);
 
         final Exception expectedException = assertThrows(EconomiaAPIException.class, () -> {
