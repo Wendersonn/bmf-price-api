@@ -37,14 +37,14 @@ Depois de executar a aplicação, você poderá testar a API chamando
 `http://localhost:8080/v1/crops/{CÓDIGO-DA-CULTURA}/price?date={DATA-DESEJADA}`
 
 Perceba que os parâmetros `{CÓDIGO-DA-CULTURA}` e `{DATA-DESEJADA}` devem ser substituídos pelos filtros desejados.
-Assim sendo temos o exemplo: http://localhost:8080/v1/crops/SOYBEAN/price?date=2021-02-18 que busca os dados da cultura
+Assim sendo temos o exemplo: http://localhost:8080/v1/crops/SOYBEAN/price?date=2021-02-17 que busca os dados da cultura
 de Soja na data 18/02/2021 (perceba que o formato da data na URL deve ser sempre YYYY-MM-DD). Aqui está o retorno dessa
 chamada:
 
 ```json
 {
   "data": {
-    "price": 157.03379390716552
+    "price": 157.86
   }
 }
 ```
